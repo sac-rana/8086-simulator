@@ -70,5 +70,6 @@ const Registers = {
     };
   },
 };
+Object.seal(Registers);
 
 export { Flags, Registers, Regex };
