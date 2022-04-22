@@ -1,3 +1,5 @@
+import { hexToDecimal, validate16BitHex, validate8BitHex } from './utils';
+
 const Flags = {
   Carry: false, // It indicates overflow condition for arithmetic operation
   Auxillary: false, // When an arithmetic operation results in a carry/borrow from lower nibble(D0 - D3) to higher nibble(D4 - D7)
@@ -8,68 +10,45 @@ const Flags = {
 };
 Object.seal(Flags);
 
-const Regex = {
-  '8-bit-data': /^[0-9A-Fa-f]{1,2}$/,
-  '16-bit-data': /^[0-9A-Fa-f]{1,4}$/,
-};
-
 const Registers = {
-  _registers: {
-    AH: '00',
-    AL: '00',
-    BH: '00',
-    BL: '00',
-    CL: '00',
-    CH: '00',
-    DH: '00',
-    DL: '00',
-  },
-  setRegister(
-    register: 'AH' | 'AL' | 'BH' | 'BL' | 'CH' | 'CL' | 'DH' | 'DL',
-    data: string,
-  ) {
-    if (Regex['8-bit-data'].test(data)) {
-      data = data.padStart(2, '0').toUpperCase();
-      this._registers[register] = data;
-    } else {
-      throw new Error('Invalid 8 bit hexadecimal number');
-    }
-  },
-  setRegisterPair(registerPair: 'AX' | 'BX' | 'CX' | 'DX', data: string) {
-    if (Regex['16-bit-data'].test(data)) {
-      data = data.padStart(4, '0').toUpperCase();
-      const upperHalf = data.substring(0, 2);
-      const lowerHalf = data.substring(2);
-      if (registerPair === 'AX') {
-        this._registers['AH'] = upperHalf;
-        this._registers['AL'] = lowerHalf;
-      } else if (registerPair === 'BX') {
-        this._registers['BH'] = upperHalf;
-        this._registers['BL'] = lowerHalf;
-      } else if (registerPair === 'CX') {
-        this._registers['CH'] = upperHalf;
-        this._registers['CL'] = lowerHalf;
-      } else if (registerPair === 'DX') {
-        this._registers['DH'] = upperHalf;
-        this._registers['DL'] = lowerHalf;
-      }
-    } else {
-      throw new Error('Invalid 16 bit hexadecimal number');
-    }
+  AX: '0000', // AH and AL
+  BX: '0000', // BH and BL
+  CX: '0000', // CH and CL
+  DX: '0000', // DH and DL
+  setRegisterPair(register: 'AX' | 'BX' | 'CX' | 'DX', data: string) {
+    data = validate16BitHex(data);
+    this[register] = data;
   },
   reset() {
-    this._registers = {
-      AH: '00',
-      AL: '00',
-      BH: '00',
-      BL: '00',
-      CL: '00',
-      CH: '00',
-      DH: '00',
-      DL: '00',
-    };
+    this.AX = '0000';
+    this.BX = '0000';
+    this.CX = '0000';
+    this.DX = '0000';
   },
 };
 Object.seal(Registers);
 
-export { Flags, Registers, Regex };
+const MAX_MEMORY_ADDRESS = '10FF';
+const Memory = {
+  _memory: new Array(parseInt(MAX_MEMORY_ADDRESS, 16) + 1).fill('00'),
+  setData(address: string, data: string) {
+    if (hexToDecimal(address) > hexToDecimal(MAX_MEMORY_ADDRESS)) {
+      throw new Error(
+        'Invalid memory address: Address cannot be more than 0x10FF',
+      );
+    }
+    data = validate8BitHex(data);
+    this._memory[hexToDecimal(address)] = data;
+  },
+  getData(address: string) {
+    if (hexToDecimal(address) > hexToDecimal(MAX_MEMORY_ADDRESS)) {
+      throw new Error(
+        'Invalid memory address: Address cannot be more than 0x10FF',
+      );
+    }
+    return this._memory[hexToDecimal(address)];
+  },
+};
+Object.seal(Memory._memory);
+
+export { Flags, Registers };
