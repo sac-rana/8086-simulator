@@ -47,6 +47,8 @@ export {
   REGEX,
   beautifyInput,
   countLines,
+  decimalToHex8Bit,
+  decimalToHex16Bit,
 };
 
 export type { Register, RegisterPair };
