@@ -1,4 +1,9 @@
-import { hexToDecimal, validate16BitHex, validate8BitHex } from './utils';
+import {
+  format8BitHex,
+  hexToDecimal,
+  validate16BitHex,
+  validate8BitHex,
+} from './utils';
 import type { Register } from './utils';
 
 const Flags = {
@@ -20,9 +25,9 @@ const Registers = {
   CL: '00',
   DH: '00',
   DL: '00',
-  setRegisterPair(register: Register, data: string) {
-    data = validate8BitHex(data);
-    this[register] = data;
+  setData(register: Register, data: string) {
+    validate8BitHex(data);
+    this[register] = format8BitHex(data);
   },
   reset() {
     this.AH = '00';
@@ -39,23 +44,26 @@ Object.seal(Registers);
 
 const MAX_MEMORY_ADDRESS = '10FF';
 const Memory = {
-  _memory: new Array(parseInt(MAX_MEMORY_ADDRESS, 16) + 1).fill('00'),
+  _memory: new Array(hexToDecimal(MAX_MEMORY_ADDRESS) + 1).fill('00'),
   setData(address: string, data: string) {
-    if (hexToDecimal(address) > hexToDecimal(MAX_MEMORY_ADDRESS)) {
+    validate16BitHex(address);
+    const addressInDecimal = hexToDecimal(address);
+    if (addressInDecimal > hexToDecimal(MAX_MEMORY_ADDRESS)) {
       throw new Error(
-        'Invalid memory address: Address cannot be more than 0x10FF',
+        `Invalid memory address: Address cannot be more than 0x${MAX_MEMORY_ADDRESS}`,
       );
     }
-    data = validate8BitHex(data);
-    this._memory[hexToDecimal(address)] = data;
+    validate8BitHex(data);
+    this._memory[addressInDecimal] = format8BitHex(data);
   },
   getData(address: string) {
-    if (hexToDecimal(address) > hexToDecimal(MAX_MEMORY_ADDRESS)) {
+    const addressInDecimal = hexToDecimal(address);
+    if (addressInDecimal > hexToDecimal(MAX_MEMORY_ADDRESS)) {
       throw new Error(
         'Invalid memory address: Address cannot be more than 0x10FF',
       );
     }
-    return this._memory[hexToDecimal(address)];
+    return this._memory[addressInDecimal];
   },
 };
 Object.seal(Memory._memory);
