@@ -10,14 +10,12 @@ const validate8BitHex = (hex: string) => {
   if (!REGEX['8-bit-data'].test(hex)) {
     throw new Error('Invalid 8 bit hexadecimal number');
   }
-  return hex.padStart(2, '0').toUpperCase();
 };
 
 const validate16BitHex = (hex: string) => {
   if (!REGEX['16-bit-data'].test(hex)) {
     throw new Error('Invalid 16 bit hexadecimal number');
   }
-  return hex.padStart(4, '0').toUpperCase();
 };
 
 const hexToDecimal = (hex: string) => {
@@ -25,11 +23,11 @@ const hexToDecimal = (hex: string) => {
 };
 
 const decimalToHex8Bit = (dec: number) => {
-  return dec.toString(16).padStart(2, '0').toUpperCase();
+  return format8BitHex(dec.toString(16));
 };
 
 const decimalToHex16Bit = (dec: number) => {
-  return dec.toString(16).padStart(4, '0').toUpperCase();
+  return format16BitHex(dec.toString(16));
 };
 
 const beautifyInput = (code: string) => {
@@ -39,6 +37,9 @@ const beautifyInput = (code: string) => {
 const countLines = (text: string) => {
   return text.split(/\r\n|\n/).length;
 };
+
+const format8BitHex = (hex: string) => hex.padStart(2, '0').toUpperCase();
+const format16BitHex = (hex: string) => hex.padStart(4, '0').toUpperCase();
 
 export {
   validate16BitHex,
