@@ -2,6 +2,9 @@
   "name": "8086-simulator",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "Sachin Rana"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
