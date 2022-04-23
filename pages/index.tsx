@@ -1,13 +1,18 @@
 import type { NextPage } from 'next';
+import EditorComponent from '../components/editor-component';
 import FlagsComponent from '../components/flags-component';
 import RegistersComponent from '../components/registers-component';
+import styles from '../styles/Home.module.css';
 
 const Home: NextPage = () => {
   return (
-    <div>
-      <RegistersComponent />
-      <FlagsComponent />
-    </div>
+    <main className={styles.wrapper}>
+      <div className={styles.side}>
+        <RegistersComponent />
+        <FlagsComponent />
+      </div>
+      <EditorComponent />
+    </main>
   );
 };
 
