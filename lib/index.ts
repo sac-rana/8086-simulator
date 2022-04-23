@@ -1,4 +1,5 @@
 import { hexToDecimal, validate16BitHex, validate8BitHex } from './utils';
+import type { Register } from './utils';
 
 const Flags = {
   Carry: false, // It indicates overflow condition for arithmetic operation
@@ -11,19 +12,27 @@ const Flags = {
 Object.seal(Flags);
 
 const Registers = {
-  AX: '0000', // AH and AL
-  BX: '0000', // BH and BL
-  CX: '0000', // CH and CL
-  DX: '0000', // DH and DL
-  setRegisterPair(register: 'AX' | 'BX' | 'CX' | 'DX', data: string) {
-    data = validate16BitHex(data);
+  AH: '00',
+  AL: '00',
+  BH: '00',
+  BL: '00',
+  CH: '00',
+  CL: '00',
+  DH: '00',
+  DL: '00',
+  setRegisterPair(register: Register, data: string) {
+    data = validate8BitHex(data);
     this[register] = data;
   },
   reset() {
-    this.AX = '0000';
-    this.BX = '0000';
-    this.CX = '0000';
-    this.DX = '0000';
+    this.AH = '00';
+    this.AL = '00';
+    this.BH = '00';
+    this.BL = '00';
+    this.CH = '00';
+    this.CL = '00';
+    this.DH = '00';
+    this.DL = '00';
   },
 };
 Object.seal(Registers);
