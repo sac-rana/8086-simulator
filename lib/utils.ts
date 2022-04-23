@@ -50,6 +50,8 @@ export {
   countLines,
   decimalToHex8Bit,
   decimalToHex16Bit,
+  format16BitHex,
+  format8BitHex,
 };
 
 export type { Register, RegisterPair };
