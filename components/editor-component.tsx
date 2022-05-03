@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { assembler } from '../lib/assembler';
 import { beautifyInput, countLines } from '../lib/utils';
 
 export default function EditorComponent() {
@@ -6,7 +7,7 @@ export default function EditorComponent() {
   return (
     <div>
       <h2>main.asm</h2>
-      <button>Compile</button>
+      <button onClick={() => assembler(beautifyInput(code))}>Compile</button>
       <button>Run</button>
       <textarea
         rows={40}

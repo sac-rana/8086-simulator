@@ -1,12 +1,16 @@
-import { Registers } from '../lib';
+import { useRegisters } from '../lib/state';
+import styles from './styles/registers.module.scss';
 export default function RegistersComponent() {
+  const { registers } = useRegisters();
   return (
-    <div>
+    <main className={styles.container}>
       <h1>Registers</h1>
-      <p>AX {Registers.AX}</p>
-      <p>BX {Registers.BX}</p>
-      <p>CX {Registers.CX}</p>
-      <p>DX {Registers.DX}</p>
-    </div>
+      <div className={styles.table}>
+        <div>AX {registers.AX}</div>
+        <div>BX {registers.BX}</div>
+        <div>CX {registers.CX}</div>
+        <div>DX {registers.DX}</div>
+      </div>
+    </main>
   );
 }

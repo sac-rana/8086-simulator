@@ -1,0 +1,17 @@
+.container {
+  position: relative;
+  .table {
+    display: grid;
+    div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    div:nth-child(odd) {
+      background-color: #f9f9f9;
+    }
+  }
+}
+.container2 {
+  background-color: red;
+}

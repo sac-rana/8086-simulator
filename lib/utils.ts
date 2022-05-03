@@ -38,8 +38,22 @@ const countLines = (text: string) => {
   return text.split(/\r\n|\n/).length;
 };
 
-const format8BitHex = (hex: string) => hex.padStart(2, '0').toUpperCase();
-const format16BitHex = (hex: string) => hex.padStart(4, '0').toUpperCase();
+const format8BitHex = (hex: string) => {
+  try {
+    validate8BitHex(hex);
+    return hex.padStart(2, '0').toUpperCase();
+  } catch (err) {
+    return '00';
+  }
+};
+const format16BitHex = (hex: string) => {
+  try {
+    validate16BitHex(hex);
+    return hex.padStart(4, '0').toUpperCase();
+  } catch (err) {
+    return '0000';
+  }
+};
 
 export {
   validate16BitHex,
