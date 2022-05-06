@@ -1,17 +1,24 @@
 .container {
-  position: relative;
+  padding: 1.5vw;
+  h2 {
+    font-weight: 400;
+  }
   .table {
-    display: grid;
     div {
+      padding: 10px 5px;
+      margin: 0;
       display: flex;
-      justify-content: center;
-      align-items: center;
+      justify-content: space-around;
+      span {
+        font-weight: bold;
+        width: 25px;
+      }
     }
     div:nth-child(odd) {
       background-color: #f9f9f9;
     }
+    div:hover {
+      background-color: #ff7f508a;
+    }
   }
-}
-.container2 {
-  background-color: red;
 }

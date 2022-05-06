@@ -1,0 +1,7 @@
+T__0=1
+NUMBER=2
+OPCODE=3
+REGISTER=4
+EOL=5
+WS=6
+','=1

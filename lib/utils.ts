@@ -1,4 +1,4 @@
-type Register = 'AH' | 'AL' | 'BH' | 'BL' | 'CH' | 'CL' | 'DH' | 'DL';
+type Register = 'AH' | 'AL' | 'BH' | 'BL' | 'CH' | 'CL' | 'DH' | 'DL' | 'SP';
 type RegisterPair = 'AX' | 'BX' | 'CX' | 'DX';
 
 const REGEX = {

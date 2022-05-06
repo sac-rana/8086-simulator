@@ -4,18 +4,7 @@ import { format8BitHex, hexToDecimal, Register } from './utils';
 
 type RegistersState = {
   registers: {
-    AH: string;
-    BH: string;
-    AL: string;
-    BL: string;
-    CH: string;
-    CL: string;
-    DH: string;
-    DL: string;
-    AX: string;
-    BX: string;
-    CX: string;
-    DX: string;
+    [index in Register]: string;
   };
   setData: (register: Register, data: string) => void;
   reset: () => void;
@@ -48,6 +37,7 @@ const useRegisters = create<RegistersState>(set => ({
     CL: '00',
     DH: '00',
     DL: '00',
+    SP: '0000',
     get AX() {
       return this.AH + ' ' + this.AL;
     },
@@ -81,6 +71,7 @@ const useRegisters = create<RegistersState>(set => ({
         BX: '',
         CX: '',
         DX: '',
+        SP: '0000',
       },
     }));
   },
